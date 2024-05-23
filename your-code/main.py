@@ -1,72 +1,58 @@
 #1. Import the NUMPY package under the name np.
-
-#[your code here]
-
+import numpy as np
 
 #2. Print the NUMPY version and the configuration.
-
-#[your code here]
-
+print(np.__version__)
+print(np.show_config())
 
 #3. Generate a 2x3x5 3-dimensional array with random values. Assign the array to variable "a"
 # Challenge: there are at least three easy ways that use numpy to generate random arrays. How many ways can you find?
-
-#[your code here]
+a = np.random.random((2, 3, 5))
 
 #4. Print a.
+print(a)
 
-#[your code here]
 #5. Create a 5x2x3 3-dimensional array with all values equaling 1.
 #Assign the array to variable "b"
-
-#[your code here]
+b = np.ones((5, 2, 3))
 
 #6. Print b.
-
-#[your code here]
+print(b)
 
 #7. Do a and b have the same size? How do you prove that in Python code?
-
-#[your code here]
+print("Size of a:", a.size)
+print("Size of b:", b.size)
 
 #8. Are you able to add a and b? Why or why not?
+# No, a and b have different shapes. Broadcasting won't work here.
 
-#[your code here]
+#9. Transpose b so that it has the same structure of a (i.e. become a 2x3x5 array). Assign the transposed array to variable "c".
+c = np.transpose(b, (1, 2, 0))
 
-
-#9. Transpose b so that it has the same structure of a (i.e. become a 2x3x5 array). Assign the transposed array to varialbe "c".
-
-#[your code here]
-
-#10. Try to add a and c. Now it should work. Assign the sum to varialbe "d". But why does it work now?
-
-#[your code here]
+#10. Try to add a and c. Now it should work. Assign the sum to variable "d". But why does it work now?
+# Now it works because a and c have the same shape.
+d = a + c
 
 #11. Print a and d. Notice the difference and relation of the two array in terms of the values? Explain.
-
-#[your code here]
-
+print("Array a:")
+print(a)
+print("\nArray d:")
+print(d)
+# d is formed by adding each element of a with the corresponding element of c (which is essentially a 3D array of all ones).
 
 #12. Multiply a and c. Assign the result to e.
-
-#[your code here]
-
+e = a * c
 
 #13. Does e equal to a? Why or why not?
-
-#[your code here]
-
-
+# Yes, because c is an array of all ones, so multiplying any array by c essentially leaves the original array unchanged.
 
 #14. Identify the max, min, and mean values in d. Assign those values to variables "d_max", "d_min", and "d_mean"
-
-#[your code here]
-
+d_max = np.max(d)
+d_min = np.min(d)
+d_mean = np.mean(d)
 
 #15. Now we want to label the values in d. First create an empty array "f" with the same shape (i.e. 2x3x5) as d using `np.empty`.
-
-#[your code here]
-
+f = np.empty(d)
 
 """
 #16. Populate the values in f. For each value in d, if it's larger than d_min but smaller than d_mean, assign 25 to the corresponding value in f.
@@ -77,11 +63,11 @@ Assign 100 to the corresponding value(s) in f for d_max in d.
 In the end, f should have only the following values: 0, 25, 50, 75, and 100.
 Note: you don't have to use Numpy in this question.
 """
-
-#[your code here]
-
-
-
+f[(d > d_min) & (d < d_mean)] = 25
+f[(d > d_mean) & (d < d_max)] = 75
+f[d == d_mean] = 50
+f[d == d_min] = 0
+f[d == d_max] = 100
 
 """
 #17. Print d and f. Do you have your expected f?
@@ -103,10 +89,10 @@ array([[[ 75.,  75.,  75.,  25.,  75.],
         [ 75.,  75.,  75.,  75.,  75.],
         [ 25.,  75.,   0.,  75.,  75.]]])
 """
-
-#[your code here]
-
-
+print("Array d:")
+print(d)
+print("\nArray f:")
+print(f)
 
 """
 #18. Bonus question: instead of using numbers (i.e. 0, 25, 50, 75, and 100), how to use string values 
@@ -120,5 +106,9 @@ array([[[ 'D',  'D',  'D',  'B',  'D'],
         [ 'B',  'D',   'A',  'D', 'D']]])
 Again, you don't need Numpy in this question.
 """
-
-#[your code here]
+# Create a dictionary to map numerical values to string labels
+label_map = {0: 'A', 25: 'B', 50: 'C', 75: 'D', 100: 'E'}
+# Replace numerical values in f with corresponding string labels
+f_str = np.vectorize(label_map.get)(f)
+print("\nArray f with string labels:")
+print(f_str)
